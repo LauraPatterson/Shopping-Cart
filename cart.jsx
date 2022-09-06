@@ -1,9 +1,9 @@
 // simulate getting products from DataBase
 const products = [
-  { name: 'Apples_:', country: 'Italy', cost: 3, instock: 10 },
-  { name: 'Oranges:', country: 'Spain', cost: 4, instock: 3 },
-  { name: 'Beans__:', country: 'USA', cost: 2, instock: 5 },
-  { name: 'Cabbage:', country: 'USA', cost: 1, instock: 8 },
+  { name: "Apples_:", country: "Italy", cost: 3, instock: 10 },
+  { name: "Oranges:", country: "Spain", cost: 4, instock: 3 },
+  { name: "Beans__:", country: "USA", cost: 2, instock: 5 },
+  { name: "Cabbage:", country: "USA", cost: 1, instock: 8 },
 ];
 //=========Cart=============
 const Cart = (props) => {
@@ -11,7 +11,7 @@ const Cart = (props) => {
   let data = props.location.data ? props.location.data : products;
   console.log(`data:${JSON.stringify(data)}`);
 
-  return <Accordion defaultActiveKey='0'>{list}</Accordion>;
+  return <Accordion defaultActiveKey="0">{list}</Accordion>;
 };
 
 const useDataApi = (initialUrl, initialData) => {
@@ -25,19 +25,19 @@ const useDataApi = (initialUrl, initialData) => {
   });
   console.log(`useDataApi called`);
   useEffect(() => {
-    console.log('useEffect Called');
+    console.log("useEffect Called");
     let didCancel = false;
     const fetchData = async () => {
-      dispatch({ type: 'FETCH_INIT' });
+      dispatch({ type: "FETCH_INIT" });
       try {
         const result = await axios(url);
-        console.log('FETCH FROM URl');
+        console.log("FETCH FROM URl");
         if (!didCancel) {
-          dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
+          dispatch({ type: "FETCH_SUCCESS", payload: result.data });
         }
       } catch (error) {
         if (!didCancel) {
-          dispatch({ type: 'FETCH_FAILURE' });
+          dispatch({ type: "FETCH_FAILURE" });
         }
       }
     };
@@ -50,20 +50,20 @@ const useDataApi = (initialUrl, initialData) => {
 };
 const dataFetchReducer = (state, action) => {
   switch (action.type) {
-    case 'FETCH_INIT':
+    case "FETCH_INIT":
       return {
         ...state,
         isLoading: true,
         isError: false,
       };
-    case 'FETCH_SUCCESS':
+    case "FETCH_SUCCESS":
       return {
         ...state,
         isLoading: false,
         isError: false,
         data: action.payload,
       };
-    case 'FETCH_FAILURE':
+    case "FETCH_FAILURE":
       return {
         ...state,
         isLoading: false,
@@ -90,9 +90,9 @@ const Products = (props) => {
   } = ReactBootstrap;
   //  Fetch Data
   const { Fragment, useState, useEffect, useReducer } = React;
-  const [query, setQuery] = useState('http://localhost:1337/products');
+  const [query, setQuery] = useState("http://localhost:1337/api/products");
   const [{ data, isLoading, isError }, doFetch] = useDataApi(
-    'http://localhost:1337/products',
+    "http://localhost:1337/api/products",
     {
       data: [],
     }
@@ -110,19 +110,19 @@ const Products = (props) => {
     let newCart = cart.filter((item, i) => index != i);
     setCart(newCart);
   };
-  const photos = ['apple.png', 'orange.png', 'beans.png', 'cabbage.png'];
+  const photos = ["apple.png", "orange.png", "beans.png", "cabbage.png"];
 
   let list = items.map((item, index) => {
     //let n = index + 1049;
-    //let url = 'https://picsum.photos/id/' + n + '/50/50';
+    //let url = "https://picsum.photos/id/" + n + "/50/50";
 
     return (
       <li key={index}>
         <Image src={photos[index % 4]} width={70} roundedCircle></Image>
-        <Button variant='primary' size='large'>
+        <Button variant="primary" size="large">
           {item.name}:{item.cost}
         </Button>
-        <input name={item.name} type='submit' onClick={addToCart}></input>
+        <input name={item.name} type="submit" onClick={addToCart}></input>
       </li>
     );
   });
@@ -174,11 +174,11 @@ const Products = (props) => {
       <Row>
         <Col>
           <h1>Product List</h1>
-          <ul style={{ listStyleType: 'none' }}>{list}</ul>
+          <ul style={{ listStyleType: "none" }}>{list}</ul>
         </Col>
         <Col>
           <h1>Cart Contents</h1>
-          <Accordion defaultActiveKey='0'>{cartList}</Accordion>
+          <Accordion defaultActiveKey="0">{cartList}</Accordion>
         </Col>
         <Col>
           <h1>CheckOut </h1>
@@ -189,21 +189,21 @@ const Products = (props) => {
       <Row>
         <form
           onSubmit={(event) => {
-            restockProducts(`http://localhost:1337/${query}`);
+            restockProducts(`http://localhost:1337/api/${query}`);
             console.log(`Restock called on ${query}`);
             event.preventDefault();
           }}
         >
           <input
-            type='text'
+            type="text"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
           />
-          <button type='submit'>ReStock Products</button>
+          <button type="submit">ReStock Products</button>
         </form>
       </Row>
     </Container>
   );
 };
 // ========================================
-ReactDOM.render(<Products />, document.getElementById('root'));
+ReactDOM.render(<Products />, document.getElementById("root"));
